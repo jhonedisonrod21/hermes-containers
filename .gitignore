@@ -1,0 +1,3 @@
+# Nunca versionar credenciales locales (cada servicio tiene su .env.example)
+.env
+**/.env

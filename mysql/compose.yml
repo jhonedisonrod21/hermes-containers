@@ -1,0 +1,23 @@
+services:
+  hermes-mysql:
+    build:
+      context: .
+    image: hermes-calendar-mysql:local
+    container_name: hermes-calendar-mysql
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "${MYSQL_PORT:-3306}:3306"
+    volumes:
+      - hermes_mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u root -p$$MYSQL_ROOT_PASSWORD --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+volumes:
+  hermes_mysql_data:
+    name: hermes_mysql_data
