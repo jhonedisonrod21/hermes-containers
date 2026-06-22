@@ -1,11 +1,12 @@
 # hermes-containers
 
-Contenedores de apoyo para el desarrollo local de Hermes. Un repositorio, dos
+Contenedores de apoyo para el desarrollo local de Hermes. Un repositorio, varios
 servicios independientes (cada uno con su `compose.yml`).
 
 | Carpeta | Imagen | Puerto host | Para qué |
 |---------|--------|-------------|----------|
 | `mysql/` | MySQL 8.4 | 3306 | Bases `HERMES_IAM`, `HERMES_CALENDAR`, `HERMES_COMMERCE` |
+| `mailpit/` | Mailpit | 1025 / 8025 | Buzón SMTP falso para `notification-service` (SMTP + UI web) |
 | `sonarqube/` | SonarQube Community | 9001 | Análisis estático de código |
 
 ## Uso
@@ -13,6 +14,9 @@ servicios independientes (cada uno con su `compose.yml`).
 ```bash
 # Base de datos (necesaria para el stack)
 cd mysql && cp .env.example .env && docker compose up -d --build
+
+# Buzón SMTP falso (para notificaciones por correo en local)
+cd mailpit && cp .env.example .env && docker compose up -d   # UI: http://localhost:8025
 
 # Análisis estático (opcional)
 cd sonarqube && cp .env.example .env && docker compose up -d --build   # UI: http://localhost:9001
