@@ -7,6 +7,7 @@ servicios independientes (cada uno con su `compose.yml`).
 |---------|--------|-------------|----------|
 | `mysql/` | MySQL 8.4 | 3306 | Bases `HERMES_IAM`, `HERMES_CALENDAR`, `HERMES_COMMERCE` |
 | `mailpit/` | Mailpit | 1025 / 8025 | Buzón SMTP falso para `notification-service` (SMTP + UI web) |
+| `pse-simulator/` | Python (Flask) | 8099 | Banco PSE simulado para probar el cobro de `payment-service` |
 | `sonarqube/` | SonarQube Community | 9001 | Análisis estático de código |
 
 ## Uso

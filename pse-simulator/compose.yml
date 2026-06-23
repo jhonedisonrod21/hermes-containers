@@ -1,0 +1,25 @@
+services:
+  pse-simulator:
+    build:
+      context: .
+    image: hermes-pse-simulator:local
+    container_name: hermes-pse-simulator
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "${PSE_SIM_PORT:-8099}:8099"
+    environment:
+      # Webhook del payment-service (corre en el host). host.docker.internal alcanza el host desde el contenedor.
+      WEBHOOK_URL: ${WEBHOOK_URL:-http://host.docker.internal:8084/webhooks/fake_pse}
+      # Base pública del simulador, a la que se redirige el navegador del usuario.
+      SELF_BASE_URL: ${SELF_BASE_URL:-http://localhost:8099}
+    extra_hosts:
+      # Permite que el contenedor resuelva el host (Linux): necesario para llamar al webhook.
+      - "host.docker.internal:host-gateway"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://localhost:8099/health').status==200 else 1)"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
